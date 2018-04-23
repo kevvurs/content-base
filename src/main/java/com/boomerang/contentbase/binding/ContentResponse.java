@@ -40,34 +40,44 @@ public class ContentResponse {
     }
 
     public static class Meta {
-        private final String nextPage;
+        private final Integer nextPage;
+        private final Integer lastPage;
 
         public Meta() {
-            this.nextPage = "";
+            this.nextPage = 0;
+            this.lastPage = 0;
         }
 
-        public Meta(String nextPage) {
+        public Meta(Integer nextPage, Integer lastPage) {
             this.nextPage = nextPage;
+            this.lastPage = lastPage;
         }
 
         public Meta(Builder builder) {
             this.nextPage = builder.nextPage;
+            this.lastPage = builder.lastPage;
         }
 
-        public String getNextPage() {
+        public Integer getNextPage() {
             return nextPage;
+        }
+
+        public Integer getLastPage() {
+            return lastPage;
         }
     }
 
     public static class Builder {
         private NavigationLinks links;
         private List<JsonApiModel> data;
-        private String nextPage;
+        private Integer nextPage;
+        private Integer lastPage;
 
         public Builder() {
             this.links = new NavigationLinks();
             this.data = new ArrayList<>();
-            this.nextPage = "";
+            this.nextPage = 0;
+            this.lastPage = 0;
         }
 
         public Builder setLinks(NavigationLinks links) {
@@ -85,8 +95,13 @@ public class ContentResponse {
             return this;
         }
 
-        public Builder setNextPage(String nextPage) {
+        public Builder setNextPage(Integer nextPage) {
             this.nextPage = nextPage;
+            return this;
+        }
+
+        public Builder setLastPage(Integer lastPage) {
+            this.lastPage = lastPage;
             return this;
         }
 

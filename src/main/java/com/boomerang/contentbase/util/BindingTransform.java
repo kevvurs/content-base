@@ -21,14 +21,30 @@ public class BindingTransform {
         this.contentProperties = contentProperties;
     }
 
-    public ContentResponse createResponse(String currentCursor, ArticlePage page) {
+    public ContentResponse createResponse(Integer pageNumber, ArticlePage page) {
         String host = contentProperties.getHost();
-        String self = (currentCursor.isEmpty()) ?
-                host.concat("/articles"):
-                String.format("%s/articles?page=%s", host, currentCursor);
-        String next = String.format("%s/articles?page=%s", host, page.getCursor());
+        int lastPageNumber;
+        int nextPageNumber;
+        String self;
+        String last;
+        String next;
+        if (pageNumber <= 1) {
+            lastPageNumber = 0;
+            nextPageNumber = 2;
+            self = host.concat("/articles");
+            last = "";
+            next = String.format("%s/articles?page=%s", host, nextPageNumber);
+        } else {
+            lastPageNumber = pageNumber - 1;
+            nextPageNumber = pageNumber + 1;
+            self = String.format("%s/articles?page=%s", host, pageNumber);
+            last = String.format("%s/articles?page=%s", host, lastPageNumber);
+            next = String.format("%s/articles?page=%s", host, nextPageNumber);
+
+        }
         NavigationLinks links = new NavigationLinks.Builder()
                 .setSelf(self)
+                .setLast(last)
                 .setNext(next)
                 .build();
         List<JsonApiModel> articles = page.getArticles().stream()
@@ -47,7 +63,8 @@ public class BindingTransform {
         return new ContentResponse.Builder()
                 .setLinks(links)
                 .addData(articles)
-                .setNextPage(page.getCursor())
+                .setNextPage(nextPageNumber)
+                .setLastPage(lastPageNumber)
                 .build();
     }
 }
