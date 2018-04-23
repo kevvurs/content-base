@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Page {
-    private final List<Article> articles;
+    private final List<ArticleEntity> articles;
     private final String cursor;
 
     public Page() {
@@ -13,12 +13,12 @@ public class Page {
         this.cursor = "";
     }
 
-    public Page(List<Article> articles, String cursor) {
+    public Page(List<ArticleEntity> articles, String cursor) {
         this.articles = Collections.unmodifiableList(articles);
         this.cursor = cursor;
     }
 
-    public List<Article> getArticles() {
+    public List<ArticleEntity> getArticles() {
         return articles;
     }
 
@@ -27,7 +27,7 @@ public class Page {
     }
 
     public static class Builder {
-        private List<Article> articles;
+        private List<ArticleEntity> articles;
         private String cursor;
 
         public Builder() {
@@ -35,7 +35,12 @@ public class Page {
             this.cursor = "";
         }
 
-        public Builder setArticles(List<Article> articles) {
+        public Builder setArticles(List<ArticleEntity> articles) {
+            this.articles = new ArrayList<>(articles);
+            return this;
+        }
+
+        public Builder addArticles(List<ArticleEntity> articles) {
             this.articles.addAll(articles);
             return this;
         }
