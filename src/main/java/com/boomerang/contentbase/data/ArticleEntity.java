@@ -1,6 +1,6 @@
 package com.boomerang.contentbase.data;
 
-public class Article {
+public class ArticleEntity {
     protected static final String FIELD_AUTH = "author";
     protected static final String FIELD_DESC = "description";
     protected static final String FIELD_ID   = "id";
@@ -19,7 +19,7 @@ public class Article {
     private final String image;
     private final String published;
 
-    public Article() {
+    public ArticleEntity() {
         this.id = "";
         this.source = "";
         this.author = "";
@@ -30,7 +30,7 @@ public class Article {
         this.published = "";
     }
 
-    public Article(String id, String source, String author, String title, String description, String url, String image, String published) {
+    public ArticleEntity(String id, String source, String author, String title, String description, String url, String image, String published) {
         this.id = id;
         this.source = source;
         this.author = author;
@@ -134,8 +134,8 @@ public class Article {
             return this;
         }
 
-        public Article build() {
-            return new Article(id, source, author, title, description, url, image, published);
+        public ArticleEntity build() {
+            return new ArticleEntity(id, source, author, title, description, url, image, published);
         }
     }
 }

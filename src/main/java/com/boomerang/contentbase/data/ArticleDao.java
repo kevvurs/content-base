@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.boomerang.contentbase.data.Article.*;
+import static com.boomerang.contentbase.data.ArticleEntity.*;
 
 @Repository
 public class ArticleDao {
@@ -29,14 +29,14 @@ public class ArticleDao {
     }
 
     @Cacheable("articles")
-    public Article getArticle(String id) {
+    public ArticleEntity getArticle(String id) {
         Key key = keyFactory.newKey(id);
         Entity entity = datastore.get(key);
         return buildArticle(entity);
     }
 
     @Cacheable("pages")
-    public Page getPage(String pageCursor) {
+    public ArticlePage getPage(String pageCursor) {
         Cursor cursor;
         if (pageCursor.isEmpty()) {
             cursor = null;
@@ -52,19 +52,19 @@ public class ArticleDao {
             queryBuilder.setStartCursor(cursor);
         }
         QueryResults<Entity> articles = datastore.run(queryBuilder.build());
-        List<Article> articleList = new ArrayList<>();
+        List<ArticleEntity> articleList = new ArrayList<>();
         while (articles.hasNext()) {
             Entity entity = articles.next();
-            Article article = buildArticle(entity);
-            articleList.add(article);
+            ArticleEntity articleEntity = buildArticle(entity);
+            articleList.add(articleEntity);
         }
-        return new Page.Builder()
-                .setArticles(articleList)
+        return new ArticlePage.Builder()
+                .addArticles(articleList)
                 .setCursor(articles.getCursorAfter().toUrlSafe())
                 .build();
     }
 
-    private Article buildArticle(Entity entity) {
+    private ArticleEntity buildArticle(Entity entity) {
         return new Builder()
                 .setId(entity.getString(FIELD_ID))
                 .setSource(entity.getString(FIELD_SRC))

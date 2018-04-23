@@ -6,3 +6,4 @@ app:
     kind: Article
     page-size: 10
   date-format: MM/dd/yyyy HH:mm:ss
+  host: http://localhost:8180

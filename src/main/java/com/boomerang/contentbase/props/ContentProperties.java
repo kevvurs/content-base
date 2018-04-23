@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class ContentProperties {
     private DatastoreProperties datastore;
     private String dateFormat;
+    private String host;
 
     public ContentProperties(){}
 
@@ -25,6 +26,14 @@ public class ContentProperties {
 
     public void setDateFormat(String dateFormat) {
         this.dateFormat = dateFormat;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
     }
 
     public static class DatastoreProperties {

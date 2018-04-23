@@ -22,6 +22,6 @@ public class ContentApp {
 
     @Bean
     public KeyFactory keyFactory(Datastore datastore) {
-        return datastore.newKeyFactory().setKind("Article");
+        return datastore.newKeyFactory().setKind("ArticleEntity");
     }
 }

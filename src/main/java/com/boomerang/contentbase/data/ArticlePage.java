@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Page {
+public class ArticlePage {
     private final List<ArticleEntity> articles;
     private final String cursor;
 
-    public Page() {
+    public ArticlePage() {
         this.articles = Collections.unmodifiableList(new ArrayList<>());
         this.cursor = "";
     }
 
-    public Page(List<ArticleEntity> articles, String cursor) {
+    public ArticlePage(List<ArticleEntity> articles, String cursor) {
         this.articles = Collections.unmodifiableList(articles);
         this.cursor = cursor;
     }
@@ -50,8 +50,8 @@ public class Page {
             return this;
         }
 
-        public Page build() {
-            return new Page(articles, cursor);
+        public ArticlePage build() {
+            return new ArticlePage(articles, cursor);
         }
     }
 }
