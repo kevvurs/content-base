@@ -1,0 +1,6 @@
+# Jet Brains IDEA
+/.idea/
+dev.iml
+
+# Maven build tool
+/target/
