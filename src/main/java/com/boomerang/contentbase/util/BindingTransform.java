@@ -28,19 +28,21 @@ public class BindingTransform {
         String self;
         String last;
         String next;
+        final boolean noArticles = page.getArticles().isEmpty();
         if (pageNumber <= 1) {
+            // on front page
             lastPageNumber = 0;
-            nextPageNumber = 2;
+            nextPageNumber = (noArticles) ? 0:2;
             self = host.concat("/articles");
             last = "";
-            next = String.format("%s/articles?page=%s", host, nextPageNumber);
+            next = noArticles ? "":String.format("%s/articles?page=%s", host, nextPageNumber);
         } else {
+            // on intermediary page
             lastPageNumber = pageNumber - 1;
-            nextPageNumber = pageNumber + 1;
+            nextPageNumber = noArticles ? 0:pageNumber + 1;
             self = String.format("%s/articles?page=%s", host, pageNumber);
             last = String.format("%s/articles?page=%s", host, lastPageNumber);
-            next = String.format("%s/articles?page=%s", host, nextPageNumber);
-
+            next = noArticles ? "":String.format("%s/articles?page=%s", host, nextPageNumber);
         }
         NavigationLinks links = new NavigationLinks.Builder()
                 .setSelf(self)
