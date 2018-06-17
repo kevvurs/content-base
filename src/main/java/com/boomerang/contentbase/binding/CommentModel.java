@@ -28,6 +28,14 @@ public class CommentModel {
         this.content = content;
     }
 
+    public CommentModel(Builder builder) {
+        this.id = builder.id;
+        this.user = builder.user;
+        this.timestamp = builder.timestamp;
+        this.articleId = builder.articleId;
+        this.content = builder.content;
+    }
+
     public String getId() {
         return id;
     }
@@ -87,6 +95,15 @@ public class CommentModel {
         public Builder setArticleId(String articleId) {
             this.articleId = articleId;
             return this;
+        }
+
+        public Builder setContent(String content) {
+            this.content = content;
+            return this;
+        }
+
+        public CommentModel build() {
+            return new CommentModel(this);
         }
     }
 }
