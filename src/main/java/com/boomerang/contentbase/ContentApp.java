@@ -1,5 +1,6 @@
 package com.boomerang.contentbase;
 
+import com.google.cloud.TransportOptions;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.KeyFactory;

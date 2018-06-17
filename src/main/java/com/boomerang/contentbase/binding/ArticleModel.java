@@ -1,111 +1,104 @@
 package com.boomerang.contentbase.binding;
 
-public class ArticleModel implements JsonApiModel {
+import com.github.jasminb.jsonapi.annotations.Id;
+import com.github.jasminb.jsonapi.annotations.Relationship;
+import com.github.jasminb.jsonapi.annotations.Type;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+@Type("article")
+public class ArticleModel {
+    @Id
     private final String id;
-    private final String type;
-    private final Attributes attributes;
+    private final String source;
+    private final String author;
+    private final String title;
+    private final String description;
+    private final String url;
+    private final String image;
+    private final String published;
+    @Relationship("comments")
+    private final List<CommentModel> comments;
 
     public ArticleModel() {
         this.id = "";
-        this.type = "";
-        this.attributes = new Attributes();
+        this.source = "";
+        this.author = "";
+        this.title = "";
+        this.description = "";
+        this.url = "";
+        this.image = "";
+        this.published = "";
+        this.comments = new ArrayList<>();
     }
 
-    public ArticleModel(String id, String type, Attributes attributes) {
+    public ArticleModel(String id, String source, String author, String title, String description, String url, String image, String published, List<CommentModel> comments) {
         this.id = id;
-        this.type = type;
-        this.attributes = attributes;
+        this.source = source;
+        this.author = author;
+        this.title = title;
+        this.description = description;
+        this.url = url;
+        this.image = image;
+        this.published = published;
+        this.comments = comments;
     }
 
     public ArticleModel(Builder builder) {
         this.id = builder.id;
-        this.type = builder.type;
-        this.attributes = new Attributes(builder);
+        this.source = builder.source;
+        this.author = builder.author;
+        this.title = builder.title;
+        this.description = builder.description;
+        this.url = builder.url;
+        this.image = builder.image;
+        this.published = builder.published;
+        this.comments = builder.comments;
     }
 
     public String getId() {
         return id;
     }
 
-    public String getType() {
-        return type;
+    public String getSource() {
+        return source;
     }
 
-    public Attributes getAttributes() {
-        return attributes;
+    public String getAuthor() {
+        return author;
     }
 
-    public static class Attributes {
-        private final String source;
-        private final String author;
-        private final String title;
-        private final String description;
-        private final String url;
-        private final String image;
-        private final String published;
+    public String getTitle() {
+        return title;
+    }
 
-        public Attributes() {
-            this.source = "";
-            this.author = "";
-            this.title = "";
-            this.description = "";
-            this.url = "";
-            this.image = "";
-            this.published = "";
-        }
+    public String getDescription() {
+        return description;
+    }
 
-        public Attributes(String source, String author, String title, String description, String url, String image, String published) {
-            this.source = source;
-            this.author = author;
-            this.title = title;
-            this.description = description;
-            this.url = url;
-            this.image = image;
-            this.published = published;
-        }
+    public String getUrl() {
+        return url;
+    }
 
-        public Attributes(Builder builder) {
-            this.source = builder.source;
-            this.author = builder.author;
-            this.title = builder.title;
-            this.description = builder.description;
-            this.url = builder.url;
-            this.image = builder.image;
-            this.published = builder.published;
-        }
+    public String getImage() {
+        return image;
+    }
 
-        public String getSource() {
-            return source;
-        }
+    public String getPublished() {
+        return published;
+    }
 
-        public String getAuthor() {
-            return author;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public String getImage() {
-            return image;
-        }
-
-        public String getPublished() {
-            return published;
-        }
+    @Override
+    public Object clone() {
+        List<CommentModel> commentsClone = new ArrayList<>();
+        Collections.copy(commentsClone, comments);
+        return new ArticleModel(id, source, author, title, description, url, image, published, commentsClone);
     }
 
     public static class Builder {
         private String id;
-        private String type;
         private String source;
         private String author;
         private String title;
@@ -113,10 +106,10 @@ public class ArticleModel implements JsonApiModel {
         private String url;
         private String image;
         private String published;
+        private List<CommentModel> comments;
 
         public Builder() {
             this.id = "";
-            this.type = "";
             this.source = "";
             this.author = "";
             this.title = "";
@@ -124,15 +117,11 @@ public class ArticleModel implements JsonApiModel {
             this.url = "";
             this.image = "";
             this.published = "";
+            this.comments = new ArrayList<>();
         }
 
         public Builder setId(String id) {
             this.id = id;
-            return this;
-        }
-
-        public Builder setType(String type) {
-            this.type = type;
             return this;
         }
 
@@ -168,6 +157,11 @@ public class ArticleModel implements JsonApiModel {
 
         public Builder setPublished(String published) {
             this.published = published;
+            return this;
+        }
+
+        public Builder addAllComments(List<CommentModel> comments) {
+            this.comments.addAll(comments);
             return this;
         }
 

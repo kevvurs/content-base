@@ -1,6 +1,5 @@
 package com.boomerang.contentbase;
 
-import com.boomerang.contentbase.binding.ContentResponse;
 import com.boomerang.contentbase.data.ArticleDao;
 import com.boomerang.contentbase.data.ArticleEntity;
 import com.boomerang.contentbase.data.ArticlePage;
@@ -38,9 +37,8 @@ public class ContentAppTest {
 
     @Test
     public void testFrontpageEndpoint() {
-        ContentResponse response = articleService.getPage("");
-        Assert.assertNotEquals(new ArrayList<>(), response.getData());
-        String jsonResponse = GSON.toJson(response);
-        LOG.debug(jsonResponse);
+        byte[] response = articleService.getPage("");
+        String jsonResponse = new String(response);
+        LOG.warn(jsonResponse);
     }
 }

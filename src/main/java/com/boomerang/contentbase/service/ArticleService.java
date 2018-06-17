@@ -38,7 +38,7 @@ public class ArticleService {
 
     @CrossOrigin(origins = {"http://localhost:4200"})
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ContentResponse getPage(@RequestParam(value = "page", required = false, defaultValue = "") String page) {
+    public byte[] getPage(@RequestParam(value = "page", required = false, defaultValue = "") String page) {
         if (page.isEmpty()) {
             LOG.info("GET => ~/articles");
         } else {
@@ -53,6 +53,6 @@ public class ArticleService {
         String cursor = semanticPages.findCursor(pageNumber);
         ArticlePage articlePage = articleDao.getPage(cursor);
         semanticPages.defineNextCursor(pageNumber, articlePage.getCursor());
-        return bindingTransform.createResponse(pageNumber, articlePage);
+        return bindingTransform.createArticleResponse(pageNumber, articlePage);
     }
 }
