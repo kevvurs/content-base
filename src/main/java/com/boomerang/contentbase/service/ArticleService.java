@@ -1,6 +1,5 @@
 package com.boomerang.contentbase.service;
 
-import com.boomerang.contentbase.binding.ContentResponse;
 import com.boomerang.contentbase.cache.SemanticPages;
 import com.boomerang.contentbase.data.ArticleEntity;
 import com.boomerang.contentbase.data.ArticleDao;
@@ -31,9 +30,14 @@ public class ArticleService {
 
     @CrossOrigin(origins = {"http://localhost:4200"})
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ArticleEntity getArticle(@PathVariable("id") String articleId) {
-        LOG.info(String.format("GET => ~/articles/%s", articleId));
-        return this.articleDao.getArticle(articleId);
+    public byte[] getArticle(
+            @PathVariable("id") String articleId,
+            @RequestParam(value = "include", required = false, defaultValue = "") String include)
+    {
+        LOG.info(String.format("GET => ~/articles/%s%s",
+                articleId, include.isEmpty()?"":"?include=".concat(include)));
+        ArticleEntity entity = articleDao.getArticle(articleId);
+        return bindingTransform.createArticleResponse(entity, include.equals("comments"));
     }
 
     @CrossOrigin(origins = {"http://localhost:4200"})

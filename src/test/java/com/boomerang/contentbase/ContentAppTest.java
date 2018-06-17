@@ -36,9 +36,25 @@ public class ContentAppTest {
     }
 
     @Test
+    public void testArticleEndpoint() {
+        boolean passing;
+        String id = "00163d053ee1759b91b789bada26f4fd";  // FIXME
+        try {
+            byte[] response = articleService.getArticle(id, "");
+            String jsonResponse = new String(response);
+            LOG.info(jsonResponse);
+            passing = true;
+        } catch (Exception e) {
+            LOG.error("Article endpoint test failed", e);
+            passing = false;
+        }
+        Assert.assertEquals(true, passing);
+    }
+
+    @Test
     public void testFrontpageEndpoint() {
         byte[] response = articleService.getPage("");
         String jsonResponse = new String(response);
-        LOG.warn(jsonResponse);
+        LOG.info(jsonResponse);
     }
 }

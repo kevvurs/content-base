@@ -1,5 +1,6 @@
 package com.boomerang.contentbase.data;
 
+import com.boomerang.contentbase.err.PageNotFound;
 import com.boomerang.contentbase.props.ContentProperties;
 import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.*;
@@ -29,9 +30,11 @@ public class ArticleDao {
     }
 
     @Cacheable("articles")
-    public ArticleEntity getArticle(String id) {
+    public ArticleEntity getArticle(String id) throws PageNotFound {
         Key key = keyFactory.newKey(id);
         Entity entity = datastore.get(key);
+        if (entity == null)
+            throw new PageNotFound("Article for ID " + id + " not found");
         return buildArticle(entity);
     }
 

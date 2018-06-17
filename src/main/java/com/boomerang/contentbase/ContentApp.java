@@ -1,6 +1,5 @@
 package com.boomerang.contentbase;
 
-import com.google.cloud.TransportOptions;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.KeyFactory;
@@ -23,6 +22,6 @@ public class ContentApp {
 
     @Bean
     public KeyFactory keyFactory(Datastore datastore) {
-        return datastore.newKeyFactory().setKind("ArticleEntity");
+        return datastore.newKeyFactory().setKind("Article");
     }
 }

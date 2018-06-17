@@ -1,12 +1,10 @@
 package com.boomerang.contentbase.util;
 
 import com.boomerang.contentbase.binding.*;
+import com.boomerang.contentbase.data.ArticleEntity;
 import com.boomerang.contentbase.data.ArticlePage;
 import com.boomerang.contentbase.props.ContentProperties;
-import com.github.jasminb.jsonapi.JSONAPIDocument;
-import com.github.jasminb.jsonapi.Link;
-import com.github.jasminb.jsonapi.Links;
-import com.github.jasminb.jsonapi.ResourceConverter;
+import com.github.jasminb.jsonapi.*;
 import com.github.jasminb.jsonapi.exceptions.DocumentSerializationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,6 +25,35 @@ public class BindingTransform {
     @Autowired
     private BindingTransform(ContentProperties contentProperties) {
         this.contentProperties = contentProperties;
+    }
+
+    public byte[] createArticleResponse(ArticleEntity entity, boolean include) {
+        ArticleModel article = new ArticleModel.Builder()
+                .setId(entity.getId())
+                .setSource(entity.getSource())
+                .setAuthor(entity.getAuthor())
+                .setTitle(entity.getTitle())
+                .setDescription(entity.getDescription())
+                .setUrl(entity.getUrl())
+                .setImage(entity.getImage())
+                .setPublished(entity.getPublished())
+                .build();
+        JSONAPIDocument<ArticleModel> document = new JSONAPIDocument<>(article);
+        Map<String, Link> navLinks = new HashMap<>();
+        Link link = new Link(contentProperties.getHost()
+                .concat("/articles/")
+                .concat(entity.getId()));
+        navLinks.put(LINK_SELF, link);
+        document.setLinks(new Links(navLinks));
+        ResourceConverter converter = new ResourceConverter(ArticleModel.class, CommentModel.class);
+        if (include) converter.enableSerializationOption(SerializationFeature.INCLUDE_RELATIONSHIP_ATTRIBUTES);
+        byte[] response;
+        try {
+            response = converter.writeDocument(document);
+        } catch (DocumentSerializationException e) {
+            response = new byte[]{};
+        }
+        return response;
     }
 
     public byte[] createArticleResponse(Integer pageNumber, ArticlePage page) {
